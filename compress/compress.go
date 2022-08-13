@@ -27,14 +27,22 @@ const (
 	compressHeaderSize = 1 + 4 + 4
 	headerSize         = checksumSize + compressHeaderSize
 
-	// Limiting total data/block size to protect from possible OOM.
-	maxDataSize  = 1024 * 1024 * 128 // 128MB
-	maxBlockSize = maxDataSize
-
 	hRawSize  = 17
 	hDataSize = 21
 	hMethod   = 16
 )
+
+var (
+	// Limiting total data/block size to protect from possible OOM.
+	maxDataSize  = 1024 * 1024 * 128 // 128MB
+	maxBlockSize = maxDataSize
+)
+
+// SetMaxDataSize adjust max data size.
+func SetMaxDataSize(v int) {
+	maxDataSize = v
+	maxBlockSize = v
+}
 
 // CorruptedDataErr means that provided hash mismatch with calculated.
 type CorruptedDataErr struct {
