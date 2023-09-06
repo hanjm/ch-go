@@ -13,7 +13,6 @@ import (
 
 	"github.com/go-faster/errors"
 	"go.opentelemetry.io/otel"
-	"go.opentelemetry.io/otel/metric"
 	semconv "go.opentelemetry.io/otel/semconv/v1.7.0"
 	"go.opentelemetry.io/otel/trace"
 	"go.uber.org/zap"
@@ -44,7 +43,6 @@ type Client struct {
 
 	otel   bool
 	tracer trace.Tracer
-	meter  metric.Meter
 
 	// TCP Binary protocol version.
 	protocolVersion int
@@ -339,9 +337,7 @@ type Options struct {
 	// Note: OpenTelemetry context propagation works without this option too.
 	OpenTelemetryInstrumentation bool
 	TracerProvider               trace.TracerProvider
-	MeterProvider                metric.MeterProvider
 
-	meter  metric.Meter
 	tracer trace.Tracer
 }
 
@@ -386,14 +382,8 @@ func (o *Options) setDefaults() {
 			Timeout: o.DialTimeout,
 		}
 	}
-	if o.MeterProvider == nil {
-		o.MeterProvider = otel.GetMeterProvider()
-	}
 	if o.TracerProvider == nil {
 		o.TracerProvider = otel.GetTracerProvider()
-	}
-	if o.meter == nil {
-		o.meter = o.MeterProvider.Meter(otelch.Name)
 	}
 	if o.tracer == nil {
 		o.tracer = o.TracerProvider.Tracer(otelch.Name,
@@ -454,7 +444,6 @@ func Connect(ctx context.Context, conn net.Conn, opt Options) (*Client, error) {
 		lg:       opt.Logger,
 		otel:     opt.OpenTelemetryInstrumentation,
 		tracer:   opt.tracer,
-		meter:    opt.meter,
 		quotaKey: opt.QuotaKey,
 
 		readTimeout: opt.ReadTimeout,

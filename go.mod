@@ -16,7 +16,6 @@ require (
 	github.com/segmentio/asm v1.2.0
 	github.com/stretchr/testify v1.8.4
 	go.opentelemetry.io/otel v1.17.0
-	go.opentelemetry.io/otel/metric v1.17.0
 	go.opentelemetry.io/otel/sdk v1.17.0
 	go.opentelemetry.io/otel/trace v1.17.0
 	go.uber.org/atomic v1.11.0
@@ -34,6 +33,7 @@ require (
 	github.com/pascaldekloe/name v1.0.1 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/rogpeppe/go-internal v1.10.0 // indirect
+	go.opentelemetry.io/otel/metric v1.17.0 // indirect
 	go.uber.org/goleak v1.2.1 // indirect
 	golang.org/x/mod v0.8.0 // indirect
 	golang.org/x/sys v0.11.0 // indirect
